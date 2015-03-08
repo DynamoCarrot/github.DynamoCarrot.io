@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<style type="text/css">
+			.threesixty {
+				width:623px;
+				height: 760px;
+				margin-left: auto;
+				margin-right: auto;
+				background: url("images/threesixty_1.jpg") no-repeat 0px center/100%;
+				cursor:pointer;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<div class = "threesixty">
+		</div>
+		<script type="text/javascript">
+			var darg = false;
+			var currentInde = 1;
+			var originalx = 0;
+			var currentX = 0;
+			var speed = 10;
+			var images = [];
+		    function sourceImages(){
+			    for(i=1;i<=72;i++){
+			      images[i] = new Image();
+			      images[i].src = "images/threesixty_"+i+".jpg"; 
+			     }
+		    }
+		    //当鼠标移开那个div后再回到div,就没有转动效果了的
+		    //如果你想要只要鼠标不放开就一直有拖拽效果的话，可以把这个方法注释掉
+		    $(".threesixty").mouseout(function(e){
+		    	$(".threesixty").unbind("mousemove");
+		    });
+
+
+			$(".threesixty").mousedown(function(e) {
+				originalx = e.pageX; 
+				$(".threesixty").bind("mousemove",function(event){
+					animation(event);
+				});
+			})
+			$(".threesixty").mouseup(function() {
+				$(".threesixty").unbind("mousemove");
+			})
+
+			function animation(event){
+				currentX = event.clientX;
+				// turn right
+				if(currentX - originalx >= speed){
+					currentInde = (currentInde + 1) % 73;
+					$(".threesixty").css("background-image", "url("+images[currentInde].src+")");
+					originalx = currentX;
+				}
+				//turn left
+				if(currentX - originalx <= -speed){
+					currentInde = currentInde - 1 <= 0 ? 72 : currentInde - 1;
+ 					$(".threesixty").css("background-image", "url("+images[currentInde].src+")");
+ 					originalx = currentX;  
+				}
+			}
+			sourceImages();
+			
+		</script>
+	</body>
+</html>
